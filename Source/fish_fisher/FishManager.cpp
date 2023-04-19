@@ -16,7 +16,7 @@
 AFishManager::AFishManager()
     : fishies(), individualFish(), schoolsOfFish()
 {
-	PrimaryActorTick.bCanEverTick = true;
+    PrimaryActorTick.bCanEverTick = true;
 
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/DebugFish.DebugFish_C'", "debug");
 }
@@ -24,19 +24,19 @@ AFishManager::AFishManager()
 // Called when the game starts or when spawned
 void AFishManager::BeginPlay()
 {
-	Super::BeginPlay();
+    Super::BeginPlay();
 }
 
 // Called every frame
 void AFishManager::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+    Super::Tick(DeltaTime);
 
     for (const auto& fish : this->individualFish)
     {
         FVector targetVelocity = fish->getTargetVelocity();
         float targetSpeed = targetVelocity.Size();
-        FVector noiseVec = FMath::VRand() * fish->randomness;
+        FVector noiseVec = FMath::VRand() * fish->randomWalkError;
         FVector newTargetVelocity = (targetVelocity + noiseVec).GetSafeNormal() * targetSpeed;
         fish->setTargetVelocity(newTargetVelocity);
     }
@@ -58,7 +58,7 @@ AFishBase* AFishManager::spawnFish(const FVector& pos, const FString& fishName)
     AFishBase* fish = world->SpawnActor<AFishBase>(fishies[fishName], pos, rot, spawnParams);
 
     const FVector lookDir = rot.RotateVector(FVector(1, 0, 0));
-    fish->setTargetVelocity(lookDir * fish->speed);
+    fish->setTargetVelocity(lookDir * fish->getSpeed());
 
     return fish;
 }
