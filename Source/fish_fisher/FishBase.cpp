@@ -7,11 +7,13 @@
 
 const float xyPlaneFactor = 0.5;
 
-const float groundZ = 0;
+const float groundZ = 100;
 const float surfaceZ = 1000;
-const float zErrorZone = 50;
+const float zErrorZone = 100;
 const float zCorrectionAdditionalXYPlaneFactor = 3.0;
 const float zCorrectionAdditionalZVelocity = 1.0;
+
+const float maxDistFromOrigin = 400;
 
 const float kPMultiplierMax = 2.5;
 const float kPMultiplierDecay = 0.6;
@@ -92,7 +94,7 @@ void AFishBase::Tick(float DeltaTime)
 
     if (needsZCorrection)
     {
-        totalXYPlaneFactor += normalizedDistanceToZBound * zCorrectionAdditionalXYPlaneFactor;
+        totalXYPlaneFactor += FMath::Max(normalizedDistanceToZBound, 0) * zCorrectionAdditionalXYPlaneFactor;
     }
 
     // bias towards XY plane
@@ -106,10 +108,19 @@ void AFishBase::Tick(float DeltaTime)
             + FVector(0, 0, normalizedDistanceToZBound * zCorrectionAdditionalZVelocity * DeltaTime);
     }
 
-    // TODO keep the fish from straying too far from center pos ((0, 0) to start but change to player position later)
+    // keep fish from straying too far from origin
+    float distFromOriginCylinder = currentPos.Size2D();
+    if (distFromOriginCylinder > maxDistFromOrigin && (newTargetVelocityDir | currentPos) > 0)
+    {
+        newTargetVelocityDir *= -1;
+    }
+    //float originCorrectionFactor = FMath::Max(distFromOriginCylinder - maxDistFromOrigin, 0) * originCorrectionStrength * DeltaTime * 360.0;
+    //newTargetVelocityDir = newTargetVelocityDir.RotateAngleAxis(originCorrectionFactor, FVector::UpVector);
 
+    // set new target velocity
     this->setTargetVelocity(reorientVector(this->getTargetVelocity(), newTargetVelocityDir));
 
+    // update position based on velocity
     const FVector newPos = currentPos + this->getVelocity() * this->speed * DeltaTime * FMath::FRandRange(0.85, 1.15);
     this->SetActorLocationAndRotation(newPos, this->getVelocity().Rotation());
 }
