@@ -27,6 +27,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fish")
     float dartTimerMax;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fish")
+    int pointValue;
+
 private:
     FVector velocity;
     FVector targetVelocity;
