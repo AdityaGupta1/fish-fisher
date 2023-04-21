@@ -40,12 +40,12 @@ void AFishManager::setIndividualFishRandomWalkVelocity(AFishBase& fish)
     fish.setTargetVelocity(newTargetVelocity);
 }
 
-const float cAlignment = 0.2;
+const float cAlignment = 0;
 const float cSeparation = 50.0;
-const float cCohesion = 0.2;
+const float cCohesion = 0;
 const float cArrival = 1.0;
 
-const float schoolTargetVelocityKp = 30.0;
+const float schoolTargetVelocityKp = 50.0;
 
 // Called every frame
 void AFishManager::Tick(float DeltaTime)
