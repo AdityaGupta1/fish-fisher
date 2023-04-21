@@ -9,13 +9,15 @@
 
 const float xyPlaneFactor = 0.5;
 
-const float groundZ = 100;
-const float surfaceZ = 1000;
+//const float groundZ = 100;
+const float groundZ = 0;
+//const float surfaceZ = 1000;
+const float surfaceZ = 500;
 const float zErrorZone = 100;
 const float zCorrectionAdditionalXYPlaneFactor = 3.0;
 const float zCorrectionAdditionalZVelocity = 1.0;
 
-const float maxDistFromOrigin = 400;
+const float maxDistFromOrigin = 500;
 
 const float kPMultiplierMax = 2.5;
 const float kPMultiplierDecay = 0.6;
@@ -23,12 +25,10 @@ const float kPMultiplierDecay = 0.6;
 const float dartSpeedMultiplier = 1.3;
 
 AFishBase::AFishBase()
-    : baseSpeed(36.0), randomWalkError(0.3), kP(1.8), dartTimerMin(8.0), dartTimerMax(16.0), velocity(0), targetVelocity(0),
-    speed(baseSpeed* FMath::RandRange(0.75, 1.25)), dartTimer(0.0), kPMultiplier(1.0)
+    : baseSpeed(36.0), randomWalkError(0.3), kP(1.8), dartTimerMin(8.0), dartTimerMax(16.0), pointValue(10),
+    velocity(0), targetVelocity(0), speed(baseSpeed * FMath::RandRange(0.75, 1.25)), dartTimer(0.0), kPMultiplier(1.0)
 {
     PrimaryActorTick.bCanEverTick = true;
-
-    this->baseSpeed *= FMath::FRandRange(0.8, 1.2);
 
     this->setDartTimer();
 }

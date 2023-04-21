@@ -35,16 +35,17 @@ void AFishManager::BeginPlay()
 void AFishManager::setIndividualFishRandomWalkVelocity(AFishBase& fish)
 {
     FVector targetVelocity = fish.getTargetVelocity();
-    float targetSpeed = targetVelocity.Size();
     FVector noiseVec = FMath::VRand() * fish.randomWalkError;
-    FVector newTargetVelocity = (targetVelocity + noiseVec).GetSafeNormal() * targetSpeed;
+    FVector newTargetVelocity = (targetVelocity + noiseVec).GetSafeNormal() * fish.getSpeed();
     fish.setTargetVelocity(newTargetVelocity);
 }
 
-const float cAlignment = 0.2;
+const float cAlignment = 0;
 const float cSeparation = 50.0;
-const float cCohesion = 0.2;
+const float cCohesion = 0;
 const float cArrival = 1.0;
+
+const float schoolTargetVelocityKp = 50.0;
 
 // Called every frame
 void AFishManager::Tick(float DeltaTime)
@@ -90,7 +91,8 @@ void AFishManager::Tick(float DeltaTime)
             FVector vArrival = cArrival * (leader->GetActorLocation() - fish->GetActorLocation());
 
             FVector newTargetVelocity = vAlignment + vSeparation + vCohesion + vArrival;
-            fish->setTargetVelocity(MathUtils::lerpConserveLength(fish->getTargetVelocity(), newTargetVelocity, 30.0 * DeltaTime));
+            fish->setTargetVelocity(MathUtils::lerpConserveLength(fish->getTargetVelocity(), newTargetVelocity, 
+                schoolTargetVelocityKp * DeltaTime));
             setIndividualFishRandomWalkVelocity(*fish);
         }
     }
