@@ -49,12 +49,12 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
-    FVector getVelocity();
-    FVector getTargetVelocity();
-
+    FVector getVelocity() const;
+    FVector getTargetVelocity() const;
+    
     void setTargetVelocity(FVector newTargetVelocity);
 
-    float getSpeed();
+    float getSpeed() const;
 
 private:
     void setDartTimer();

@@ -3,6 +3,8 @@
 
 #include "FishBase.h"
 
+#include "MathUtils.h"
+
 #include "Kismet/KismetMathLibrary.h"
 
 const float xyPlaneFactor = 0.5;
@@ -21,10 +23,12 @@ const float kPMultiplierDecay = 0.6;
 const float dartSpeedMultiplier = 1.3;
 
 AFishBase::AFishBase()
-    : baseSpeed(7.0), randomWalkError(0.3), kP(1.8), dartTimerMin(8.0), dartTimerMax(16.0), velocity(), targetVelocity(),
+    : baseSpeed(36.0), randomWalkError(0.3), kP(1.8), dartTimerMin(8.0), dartTimerMax(16.0), velocity(0), targetVelocity(0),
     speed(baseSpeed* FMath::RandRange(0.75, 1.25)), dartTimer(0.0), kPMultiplier(1.0)
 {
     PrimaryActorTick.bCanEverTick = true;
+
+    this->baseSpeed *= FMath::FRandRange(0.8, 1.2);
 
     this->setDartTimer();
 }
@@ -46,17 +50,7 @@ void AFishBase::Tick(float DeltaTime)
 
     this->kPMultiplier -= (this->kPMultiplier - 1.0) * kPMultiplierDecay;
 
-    {
-        float currentSpeed = this->getVelocity().Size();
-        float targetSpeed = this->getTargetVelocity().Size();
-        float newSpeed = currentSpeed + kPFinal * (targetSpeed - currentSpeed);
-
-        FVector currentVelocityNormalized = this->getVelocity().GetSafeNormal();
-        FVector targetVelocityNormalized = this->getTargetVelocity().GetSafeNormal();
-        FVector newDirection = FMath::Lerp(currentVelocityNormalized, targetVelocityNormalized, kPFinal);
-
-        this->velocity = newDirection * newSpeed;
-    }
+    this->velocity = MathUtils::lerpConserveLength(this->getVelocity(), this->getTargetVelocity(), kPFinal);
 
     FVector newTargetVelocityDir = getTargetVelocity().GetSafeNormal();
 
@@ -114,23 +108,21 @@ void AFishBase::Tick(float DeltaTime)
     {
         newTargetVelocityDir *= -1;
     }
-    //float originCorrectionFactor = FMath::Max(distFromOriginCylinder - maxDistFromOrigin, 0) * originCorrectionStrength * DeltaTime * 360.0;
-    //newTargetVelocityDir = newTargetVelocityDir.RotateAngleAxis(originCorrectionFactor, FVector::UpVector);
 
     // set new target velocity
     this->setTargetVelocity(reorientVector(this->getTargetVelocity(), newTargetVelocityDir));
 
     // update position based on velocity
-    const FVector newPos = currentPos + this->getVelocity() * this->speed * DeltaTime * FMath::FRandRange(0.85, 1.15);
+    const FVector newPos = currentPos + this->getVelocity() * DeltaTime * FMath::FRandRange(0.85, 1.15);
     this->SetActorLocationAndRotation(newPos, this->getVelocity().Rotation());
 }
 
-FVector AFishBase::getVelocity()
+FVector AFishBase::getVelocity() const
 {
     return this->velocity;
 }
 
-FVector AFishBase::getTargetVelocity()
+FVector AFishBase::getTargetVelocity() const
 {
     return this->targetVelocity;
 }
@@ -140,7 +132,7 @@ void AFishBase::setTargetVelocity(FVector newTargetVelocity)
     this->targetVelocity = newTargetVelocity;
 }
 
-float AFishBase::getSpeed()
+float AFishBase::getSpeed() const
 {
     return speed;
 }

@@ -29,6 +29,9 @@ protected:
     // Called when the game starts or when spawned
     virtual void BeginPlay() override;
 
+private:
+    void setIndividualFishRandomWalkVelocity(AFishBase& fish);
+
 public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
