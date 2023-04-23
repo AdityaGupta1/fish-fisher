@@ -23,6 +23,15 @@ AFishManager::AFishManager()
     fishies["invisible"] = AFishBase::StaticClass();
 
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/DebugFish.DebugFish_C'", "debug")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/BoiFish.BoiFish_C'", "boi")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/DoiFish.DoiFish_C'", "doi")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/GoiFish.GoiFish_C'", "goi")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/KoiFish.KoiFish_C'", "koi")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/WoiFish.WoiFish_C'", "woi")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/HorseFish.HorseFish_C'", "horse")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/RockFish.RockFish_C'", "rock")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/EelFish.EelFish_C'", "eel")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/TurtleFish.TurtleFish_C'", "turtle")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/InvisibleFish.InvisibleFish_C'", "invisible")
 }
 

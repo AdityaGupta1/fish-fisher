@@ -52,7 +52,10 @@ public:
     // Called every frame
     virtual void Tick(float DeltaTime) override;
 
+    UFUNCTION(BlueprintCallable)
     FVector getVelocity() const;
+
+    UFUNCTION(BlueprintCallable)
     FVector getTargetVelocity() const;
     
     void setTargetVelocity(FVector newTargetVelocity);
