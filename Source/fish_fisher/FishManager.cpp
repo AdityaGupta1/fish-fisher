@@ -20,8 +20,6 @@ AFishManager::AFishManager()
 {
     PrimaryActorTick.bCanEverTick = true;
 
-    fishies["invisible"] = AFishBase::StaticClass();
-
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/DebugFish.DebugFish_C'", "debug")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/BoiFish.BoiFish_C'", "boi")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/DoiFish.DoiFish_C'", "doi")
