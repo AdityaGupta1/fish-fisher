@@ -131,6 +131,14 @@ void AFishManager::spawnIndividualFish(FVector pos, const FString fishName)
     this->individualFish.push_back(spawnFish(pos, fishName));
 }
 
+void AFishManager::spawnMultipleIndividualFish(FVector pos, const FString fishName, int numFish)
+{
+    for (int i = 0; i < numFish; ++i) 
+    {
+        spawnIndividualFish(pos + FMath::VRand() * 10.0, fishName);
+    }
+}
+
 void AFishManager::spawnSchoolOfFish(FVector pos, const FString fishName, int numFish)
 {
     this->schoolsOfFish.push_back(std::vector<AFishBase*>());
