@@ -42,6 +42,9 @@ private:
 public:
     UFUNCTION(BlueprintCallable)
     void spawnIndividualFish(FVector pos, const FString fishName);
+    
+    UFUNCTION(BlueprintCallable)
+    void spawnMultipleIndividualFish(FVector pos, const FString fishName, int numFish);
 
     UFUNCTION(BlueprintCallable)
     void spawnSchoolOfFish(FVector pos, const FString fishName, int numFish);
