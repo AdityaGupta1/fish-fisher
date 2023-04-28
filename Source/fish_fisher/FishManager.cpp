@@ -66,6 +66,11 @@ void AFishManager::Tick(float DeltaTime)
 
     for (const auto& school : this->schoolsOfFish) 
     {
+        if (school.size() < 2)
+        {
+            continue;
+        }
+
         AFishBase* leader = school[0];
         setIndividualFishRandomWalkVelocity(*leader);
 
