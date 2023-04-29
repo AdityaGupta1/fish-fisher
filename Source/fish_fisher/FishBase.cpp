@@ -26,7 +26,7 @@ const float dartSpeedMultiplier = 1.3;
 
 AFishBase::AFishBase()
     : baseSpeed(36.0), randomWalkError(0.3), kP(1.8), dartTimerMin(8.0), dartTimerMax(16.0), pointValue(10),
-    velocity(0), targetVelocity(0), speed(baseSpeed * FMath::RandRange(0.75, 1.25)), dartTimer(0.0), kPMultiplier(1.0)
+    velocity(0), targetVelocity(0), speed(baseSpeed * FMath::RandRange(0.75, 1.25)), dartTimer(0.0), kPMultiplier(1.0), giveAir(false)
 {
     PrimaryActorTick.bCanEverTick = true;
 

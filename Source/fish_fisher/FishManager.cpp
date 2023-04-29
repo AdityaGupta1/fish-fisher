@@ -30,6 +30,7 @@ AFishManager::AFishManager()
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/RockFish.RockFish_C'", "rock")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/EelFish.EelFish_C'", "eel")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/TurtleFish.TurtleFish_C'", "turtle")
+    LOAD("/Script/Engine.Blueprint'/Game/Fishies/BlowFish.BlowFish_C'", "blow")
     LOAD("/Script/Engine.Blueprint'/Game/Fishies/InvisibleFish.InvisibleFish_C'", "invisible")
 }
 
