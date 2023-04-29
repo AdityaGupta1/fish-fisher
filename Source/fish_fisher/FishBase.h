@@ -30,6 +30,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fish")
     int pointValue;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Fish")
+    bool giveAir;
+
 private:
     FVector velocity;
     FVector targetVelocity;
