@@ -94,6 +94,10 @@ void AFishManager::Tick(float DeltaTime)
             FVector repulsion(0);
             for (const auto& otherFish : school) 
             {
+                if (fish == nullptr || otherFish == nullptr) { // hopefully works as a bandaid for the crash
+                    continue;
+                }
+
                 FVector d = fish->GetActorLocation() - otherFish->GetActorLocation();
                 repulsion += d / FMath::Max(d.SizeSquared(), 0.1);
             }
