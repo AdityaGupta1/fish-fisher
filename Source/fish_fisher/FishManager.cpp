@@ -90,22 +90,24 @@ void AFishManager::Tick(float DeltaTime)
         for (int i = 1; i < school.size(); ++i) 
         {
             AFishBase* fish = school[i];
+            FVector fishLocation = fish->GetActorLocation();
 
             FVector repulsion(0);
             for (const auto& otherFish : school) 
             {
-                if (fish == nullptr || otherFish == nullptr) { // hopefully works as a bandaid for the crash
+                if (fish == otherFish || fish == nullptr || otherFish == nullptr 
+                    || !fish->IsValidLowLevel() || !otherFish->IsValidLowLevel()) {
                     continue;
                 }
 
-                FVector d = fish->GetActorLocation() - otherFish->GetActorLocation();
+                FVector d = fishLocation - otherFish->GetActorLocation();
                 repulsion += d / FMath::Max(d.SizeSquared(), 0.1);
             }
             FVector vSeparation = cSeparation * repulsion;
 
-            FVector vCohesion = cCohesion * (centerOfMass - fish->GetActorLocation());
+            FVector vCohesion = cCohesion * (centerOfMass - fishLocation);
 
-            FVector vArrival = cArrival * (leader->GetActorLocation() - fish->GetActorLocation());
+            FVector vArrival = cArrival * (leader->GetActorLocation() - fishLocation);
 
             FVector newTargetVelocity = vAlignment + vSeparation + vCohesion + vArrival;
             fish->setTargetVelocity(MathUtils::lerpConserveLength(fish->getTargetVelocity(), newTargetVelocity, 
